@@ -1,0 +1,25 @@
+[package]
+name = "code-desktop"
+version = "0.1.0"
+description = "88code Claude Code & Codex 配置工具"
+authors = ["88code"]
+edition = "2021"
+
+[lib]
+name = "code_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-log = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+dirs = "5.0"
+log = "0.4"
+

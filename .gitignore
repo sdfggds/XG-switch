@@ -1,0 +1,39 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS specific
+Thumbs.db
+.DS_Store
+
+# User configuration files (不要上传用户的私人配置)
+.claude/
+.codex/
+
+# Lock files (可选：有些团队会提交 pnpm-lock.yaml 以保证依赖版本一致)
+# 如果你希望其他人使用完全相同的依赖版本，注释掉下面这行
+# pnpm-lock.yaml
