@@ -1,18 +1,29 @@
-# 88code Desktop
+# XG-switch 多站点配置切换工具
 
-88code Claude Code 和 Codex 自动配置工具
+XG-switch 是一个强大的多站点配置管理工具，支持 Claude Code、Codex 和 Gemini（开发中）的配置切换。
 
 ## 功能特性
 
-### 1. Claude Code 自动配置
+### 1. 多站点配置管理
+- 保存和管理多个中转站的配置信息
+- 快速切换不同站点的配置
+- 配置持久化存储，下次启动自动恢复
+
+### 2. Claude Code 自动配置
 - 用户输入 Base URL 和 API 密钥
 - 自动配置 `~/.claude/settings.json` 文件
+- 支持保存多个配置并快速切换
 - 跨平台支持（Windows/macOS/Linux）
 
-### 2. Codex 自动配置
+### 3. Codex 自动配置
 - 用户输入 API 密钥
 - 自动配置 `~/.codex/auth.json` 和 `config.toml`
 - **永久设置环境变量 key88**
+- 支持保存多个配置并快速切换
+
+### 4. 配置导入导出
+- 导出所有配置为 JSON 文件
+- 从文件导入配置，方便备份和分享
 
 ## 技术栈
 
@@ -87,13 +98,18 @@ Codex 配置会自动设置环境变量 `key88=<您的API密钥>`
 ## 项目结构
 
 ```
-88code-desktop/
+XG-switch/
 ├── src/                          # Vue 3 前端代码
 │   ├── components/               # Vue 组件
 │   │   ├── Sidebar.vue          # 侧边栏导航
 │   │   ├── ClaudeConfigPanel.vue # Claude 配置面板
 │   │   ├── CodexConfigPanel.vue  # Codex 配置面板
+│   │   ├── GeminiConfigPanel.vue # Gemini 配置面板（开发中）
+│   │   ├── ConfigSwitcher.vue    # 配置切换管理界面
+│   │   ├── TabButton.vue         # 标签页按钮组件
 │   │   └── Notification.vue      # 通知组件
+│   ├── composables/              # Vue 组合式函数
+│   │   └── useConfigManager.js   # 配置管理逻辑
 │   ├── App.vue                   # 主应用
 │   ├── main.js                   # 入口文件
 │   ├── types.ts                  # TypeScript 类型定义
@@ -103,8 +119,10 @@ Codex 配置会自动设置环境变量 `key88=<您的API密钥>`
 │       ├── config.rs             # 配置路径管理和原子写入
 │       ├── claude_config.rs      # Claude 配置逻辑
 │       ├── codex_config.rs       # Codex 配置逻辑
+│       ├── vscode.rs             # VSCode 配置管理
 │       ├── env_manager.rs        # 环境变量管理
 │       ├── commands.rs           # Tauri 命令
+│       ├── main.rs               # 主入口
 │       └── lib.rs                # 主模块
 ├── package.json                  # 前端依赖
 ├── Cargo.toml                    # Rust 依赖
@@ -121,4 +139,4 @@ MIT
 
 ---
 
-© 2025 88code
+© 2025 XG-switch

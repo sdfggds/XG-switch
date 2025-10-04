@@ -8,11 +8,11 @@
         </div>
         <div>
           <h1 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            88code Desktop
+            XG-switch
           </h1>
         </div>
       </div>
-      <p class="text-sm text-gray-400 ml-1">一键配置开发环境</p>
+      <p class="text-sm text-gray-400 ml-1">多站点配置切换工具</p>
     </div>
 
     <!-- 导航 -->
@@ -32,7 +32,7 @@
             ? 'bg-white/20'
             : 'bg-gray-700/50 group-hover:bg-gray-700'
         ]">
-          <Cloud :size="18" />
+          <ClaudeIcon :size="18" color="currentColor" />
         </div>
         <div class="flex-1 text-left">
           <span class="font-semibold text-sm">Claude Code</span>
@@ -56,13 +56,63 @@
             ? 'bg-white/20'
             : 'bg-gray-700/50 group-hover:bg-gray-700'
         ]">
-          <Code2 :size="18" />
+          <CodexIcon :size="18" color="currentColor" />
         </div>
         <div class="flex-1 text-left">
           <span class="font-semibold text-sm">Codex</span>
           <p class="text-xs opacity-80 mt-0.5">代码生成工具</p>
         </div>
         <div v-if="activePanel === 'codex'" class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-r-full"></div>
+      </button>
+
+      <button
+        @click="$emit('panel-change', 'gemini')"
+        :class="[
+          'w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 group relative overflow-hidden',
+          activePanel === 'gemini'
+            ? 'bg-gradient-to-r from-orange-600 to-yellow-600 text-white shadow-lg shadow-orange-500/30 scale-[1.02]'
+            : 'text-gray-300 hover:bg-gray-800/60 hover:text-white hover:scale-[1.01]'
+        ]"
+      >
+        <div :class="[
+          'p-2 rounded-lg transition-all duration-300',
+          activePanel === 'gemini'
+            ? 'bg-white/20'
+            : 'bg-gray-700/50 group-hover:bg-gray-700'
+        ]">
+          <GeminiIcon :size="18" color="currentColor" />
+        </div>
+        <div class="flex-1 text-left">
+          <span class="font-semibold text-sm">Gemini</span>
+          <p class="text-xs opacity-80 mt-0.5">Google AI</p>
+        </div>
+        <div v-if="activePanel === 'gemini'" class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-r-full"></div>
+      </button>
+
+      <div class="border-t border-gray-700/50 my-3"></div>
+
+      <button
+        @click="$emit('panel-change', 'switcher')"
+        :class="[
+          'w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 group relative overflow-hidden',
+          activePanel === 'switcher'
+            ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 scale-[1.02]'
+            : 'text-gray-300 hover:bg-gray-800/60 hover:text-white hover:scale-[1.01]'
+        ]"
+      >
+        <div :class="[
+          'p-2 rounded-lg transition-all duration-300',
+          activePanel === 'switcher'
+            ? 'bg-white/20'
+            : 'bg-gray-700/50 group-hover:bg-gray-700'
+        ]">
+          <ToggleLeft :size="18" />
+        </div>
+        <div class="flex-1 text-left">
+          <span class="font-semibold text-sm">配置管理</span>
+          <p class="text-xs opacity-80 mt-0.5">切换站点配置</p>
+        </div>
+        <div v-if="activePanel === 'switcher'" class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-r-full"></div>
       </button>
     </nav>
 
@@ -75,13 +125,16 @@
         </div>
         <span class="font-mono">v0.1.0</span>
       </div>
-      <p class="text-xs text-gray-500 mt-2 text-center">© 2025 88code.org</p>
+      <p class="text-xs text-gray-500 mt-2 text-center">© 2025 XG-switch</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { Cloud, Code2, Sparkles } from 'lucide-vue-next';
+import { Sparkles, ToggleLeft } from 'lucide-vue-next';
+import ClaudeIcon from './icons/ClaudeIcon.vue';
+import CodexIcon from './icons/CodexIcon.vue';
+import GeminiIcon from './icons/GeminiIcon.vue';
 
 defineProps({
   activePanel: {

@@ -604,22 +604,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "code-desktop"
-version = "0.1.0"
-dependencies = [
- "dirs 5.0.1",
- "log",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-dialog",
- "tauri-plugin-log",
- "tauri-plugin-opener",
- "toml 0.8.2",
-]
-
-[[package]]
 name = "combine"
 version = "4.6.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5707,6 +5691,23 @@ dependencies = [
  "libc",
  "once_cell",
  "pkg-config",
+]
+
+[[package]]
+name = "xg-switch"
+version = "0.1.0"
+dependencies = [
+ "dirs 5.0.1",
+ "log",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-dialog",
+ "tauri-plugin-fs",
+ "tauri-plugin-log",
+ "tauri-plugin-opener",
+ "toml 0.8.2",
 ]
 
 [[package]]

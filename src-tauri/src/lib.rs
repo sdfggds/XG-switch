@@ -16,6 +16,7 @@ pub fn run() {
         )
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
             commands::configure_claude_code,
             commands::configure_codex,
@@ -25,6 +26,8 @@ pub fn run() {
             commands::configure_vscode_claude,
             commands::configure_vscode_codex,
             commands::get_vscode_paths,
+            commands::configure_claude_with_content,
+            commands::configure_codex_with_content,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

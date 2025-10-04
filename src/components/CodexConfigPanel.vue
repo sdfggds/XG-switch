@@ -3,8 +3,8 @@
     <div class="max-w-4xl mx-auto">
       <!-- 头部 -->
       <div class="flex items-center gap-4 mb-8">
-        <div class="p-3 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-lg">
-          <Code2 class="text-white" :size="32" />
+        <div class="p-3 bg-gradient-to-br from-gray-800 to-black rounded-2xl shadow-lg">
+          <CodexIcon :size="32" color="white" />
         </div>
         <div>
           <h2 class="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
@@ -19,19 +19,42 @@
       <!-- 标签页 -->
       <div class="bg-gray-100 p-1.5 rounded-xl mb-6 inline-flex gap-1">
         <TabButton :active="activeTab === 'client'" @click="activeTab = 'client'">
-          <Terminal :size="16" class="inline mr-2" />客户端配置
+          <TerminalIcon :size="16" class="inline mr-2" />客户端配置
         </TabButton>
         <TabButton :active="activeTab === 'vscode'" @click="activeTab = 'vscode'">
-          <Code :size="16" class="inline mr-2" />VSCode 配置
+          <VSCodeIcon :size="16" class="inline mr-2" />VSCode 配置
         </TabButton>
         <TabButton :active="activeTab === 'jetbrains'" @click="activeTab = 'jetbrains'">
-          <Braces :size="16" class="inline mr-2" />JetBrains 配置
+          <JetBrainsIcon :size="16" class="inline mr-2" />JetBrains 配置
         </TabButton>
       </div>
 
       <!-- 客户端配置 -->
       <div v-show="activeTab === 'client'" class="animate-fade-in">
         <div class="bg-white rounded-2xl shadow-xl p-8 mb-6 border border-gray-100 hover:shadow-2xl transition-shadow duration-300">
+          <!-- 高级配置按钮 -->
+          <div class="flex justify-end mb-4">
+            <button
+              @click="isAdvancedModalOpen = true"
+              class="px-3 py-1.5 text-xs bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-200 flex items-center gap-1.5"
+            >
+              <Settings2 :size="14" />
+              高级配置
+            </button>
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-gray-700 mb-3">
+              配置名称（可选）
+            </label>
+            <input
+              v-model="clientConfig.name"
+              type="text"
+              class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200"
+              placeholder="给配置起个名字，例如：主站、备用站等"
+            />
+          </div>
+
           <div class="mb-6">
             <label class="block text-sm font-semibold text-gray-700 mb-3">
               Base URL
@@ -56,14 +79,25 @@
             />
           </div>
 
-          <button
-            @click="handleClientConfigure"
-            :disabled="isLoading.client"
-            class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-semibold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
-          >
-            <Settings :size="20" />
-            {{ isLoading.client ? '配置中...' : '自动配置客户端' }}
-          </button>
+          <div class="flex gap-4">
+            <button
+              @click="handleSaveConfig"
+              :disabled="isLoading.save"
+              class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-semibold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+            >
+              <Save :size="20" />
+              {{ isLoading.save ? '保存中...' : '保存配置' }}
+            </button>
+
+            <button
+              @click="handleClientConfigure"
+              :disabled="isLoading.client"
+              class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-semibold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
+            >
+              <Settings :size="20" />
+              {{ isLoading.client ? '配置中...' : '自动配置' }}
+            </button>
+          </div>
         </div>
 
         <div v-if="configPaths" class="bg-green-50 border-2 border-green-200 rounded-xl p-5 mb-4">
@@ -148,7 +182,7 @@
             :disabled="isLoading.vscode"
             class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-semibold py-4 rounded-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl flex items-center justify-center gap-3"
           >
-            <Code :size="20" />
+            <VSCodeIcon :size="20" color="white" />
             {{ isLoading.vscode ? '配置中...' : '自动配置 VSCode' }}
           </button>
         </div>
@@ -182,7 +216,7 @@
       <div v-show="activeTab === 'jetbrains'" class="animate-fade-in">
         <div class="bg-white rounded-2xl shadow-xl p-12 text-center border border-gray-100">
           <div class="inline-block p-4 bg-yellow-100 rounded-full mb-4">
-            <Braces :size="48" class="text-yellow-600" />
+            <JetBrainsIcon :size="48" />
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-2">JetBrains 配置</h3>
           <p class="text-gray-600 mb-6">此功能正在开发中，敬请期待...</p>
@@ -193,14 +227,28 @@
         </div>
       </div>
     </div>
+
+    <!-- 高级配置模态框 -->
+    <AdvancedConfigModal
+      :isOpen="isAdvancedModalOpen"
+      type="codex"
+      @close="isAdvancedModalOpen = false"
+      @apply="handleAdvancedConfig"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { invoke } from '@tauri-apps/api/core';
-import { Code2, Settings, Code, Terminal, Braces, FolderOpen, Info, AlertCircle, AlertTriangle } from 'lucide-vue-next';
+import { Settings, FolderOpen, Info, AlertCircle, AlertTriangle, Save, Settings2 } from 'lucide-vue-next';
 import TabButton from './TabButton.vue';
+import AdvancedConfigModal from './AdvancedConfigModal.vue';
+import CodexIcon from './icons/CodexIcon.vue';
+import VSCodeIcon from './icons/VSCodeIcon.vue';
+import JetBrainsIcon from './icons/JetBrainsIcon.vue';
+import TerminalIcon from './icons/TerminalIcon.vue';
+import { useConfigManager } from '../composables/useConfigManager';
 
 const props = defineProps({
   configPaths: {
@@ -211,9 +259,12 @@ const props = defineProps({
 
 const emit = defineEmits(['success', 'error']);
 
+const { saveCodexConfig } = useConfigManager();
+
 const activeTab = ref('client');
 
 const clientConfig = ref({
+  name: '',
   baseUrl: 'https://88code.org/openai/v1',
   apiKey: ''
 });
@@ -225,8 +276,45 @@ const vscodeConfig = ref({
 
 const isLoading = ref({
   client: false,
-  vscode: false
+  vscode: false,
+  save: false
 });
+
+// 高级配置模态框
+const isAdvancedModalOpen = ref(false);
+
+const handleSaveConfig = async () => {
+  if (!clientConfig.value.apiKey.trim()) {
+    emit('error', '请输入 API 密钥');
+    return;
+  }
+
+  if (!clientConfig.value.baseUrl.trim()) {
+    emit('error', '请输入 Base URL');
+    return;
+  }
+
+  isLoading.value.save = true;
+
+  try {
+    // 保存配置到本地存储
+    const config = saveCodexConfig(
+      clientConfig.value.name.trim(),
+      clientConfig.value.baseUrl.trim(),
+      clientConfig.value.apiKey.trim()
+    );
+
+    emit('success', '配置已保存，可在配置管理中切换使用');
+
+    // 清空表单
+    clientConfig.value.name = '';
+    clientConfig.value.apiKey = '';
+  } catch (error) {
+    emit('error', `保存配置失败: ${error}`);
+  } finally {
+    isLoading.value.save = false;
+  }
+};
 
 const handleClientConfigure = async () => {
   if (!clientConfig.value.apiKey.trim()) {
@@ -247,7 +335,17 @@ const handleClientConfigure = async () => {
       apiKey: clientConfig.value.apiKey.trim(),
     });
 
-    emit('success', result);
+    // 自动配置成功后，也保存配置
+    saveCodexConfig(
+      clientConfig.value.name.trim() || '默认配置',
+      clientConfig.value.baseUrl.trim(),
+      clientConfig.value.apiKey.trim()
+    );
+
+    emit('success', result + ' (配置已保存)');
+
+    // 清空表单
+    clientConfig.value.name = '';
     clientConfig.value.apiKey = '';
   } catch (error) {
     emit('error', error);
@@ -276,6 +374,40 @@ const handleVSCodeConfigure = async () => {
     emit('error', error);
   } finally {
     isLoading.value.vscode = false;
+  }
+};
+
+// 处理高级配置
+const handleAdvancedConfig = async (config) => {
+  isLoading.value.client = true;
+
+  try {
+    // 应用配置（使用自定义的配置内容）
+    const result = await invoke('configure_codex_with_content', {
+      configContent: config.configContent,
+      apiKey: config.apiKey  // Codex需要apiKey来设置环境变量
+    });
+
+    // 如果需要保存到列表
+    if (config.saveToList) {
+      saveCodexConfig(
+        config.name,
+        config.baseUrl,
+        config.apiKey,
+        config.configContent
+      );
+    }
+
+    emit('success', '高级配置已应用' + (config.saveToList ? ' (已保存到配置列表)' : ''));
+    isAdvancedModalOpen.value = false;
+
+    // 清空基本配置表单
+    clientConfig.value.name = '';
+    clientConfig.value.apiKey = '';
+  } catch (error) {
+    emit('error', `应用高级配置失败: ${error}`);
+  } finally {
+    isLoading.value.client = false;
   }
 };
 </script>

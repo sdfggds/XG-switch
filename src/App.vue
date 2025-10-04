@@ -16,6 +16,19 @@
       @error="handleError"
     />
 
+    <GeminiConfigPanel
+      v-if="activePanel === 'gemini'"
+      :configPaths="configPaths"
+      @success="handleSuccess"
+      @error="handleError"
+    />
+
+    <ConfigSwitcher
+      v-if="activePanel === 'switcher'"
+      @success="handleSuccess"
+      @error="handleError"
+    />
+
     <Notification :notification="notification" @close="notification = null" />
   </div>
 </template>
@@ -26,6 +39,8 @@ import { invoke } from '@tauri-apps/api/core';
 import Sidebar from './components/Sidebar.vue';
 import ClaudeConfigPanel from './components/ClaudeConfigPanel.vue';
 import CodexConfigPanel from './components/CodexConfigPanel.vue';
+import GeminiConfigPanel from './components/GeminiConfigPanel.vue';
+import ConfigSwitcher from './components/ConfigSwitcher.vue';
 import Notification from './components/Notification.vue';
 
 const activePanel = ref('claude');
